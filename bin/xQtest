@@ -107,7 +107,9 @@ try {
    translate(':','') =>
    normalize-space()
   }
-  let \$success   := function(\$map){\$SUCCESS || \$map('counter') || ' - ' || \$map('class') }
+  let \$success   := function(\$map){
+  (\$SUCCESS,\$map('counter'),\$map('class'),'-',\$map('name') ) => string-join(' ') 
+}
  let \$failure := function(\$map){( 
  \$FAILURE, \$map('counter'), \$space, \$map('class'),
  for-each(\$map('name') => tokenize('\n' ), function(\$line ){
