@@ -48,3 +48,6 @@ docker logs $CONTAINER | head -n 7 | grep -oP ' - .+$' | tee tmp/startup.log
 echo '========================================='
 docker logs $CONTAINER | tail -n 7 | grep -oP ' - .+$' | tee -a tmp/startup.log
 
+if [ -s xar.pkgs  ]; then
+bin/xQpkgs
+fi
