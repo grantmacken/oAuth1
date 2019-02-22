@@ -133,7 +133,7 @@ coverage:
 	@#$(MAKE) up --silent
 	@#$(MAKE) --silent
 	@bin/xQcall 'system:enable-tracing(true())'
-	@bin/xQcall 'oAuth1:example()'
+	@bin/xQcall 'oAuth1:example()' &>/dev/null
 	@bin/xQcall 'system:enable-tracing(false())'
 	@bin/xQtrace
 
