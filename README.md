@@ -15,10 +15,11 @@ which provides the `cypto:hmac` function to calculate the signature.
 You must obtain your twitter [access token](https://developer.twitter.com/en/docs/basics/authentication/guides/access-tokens)
 from the [twitter apps dashboard](https://developer.twitter.com/en/apps)
 You will end up with your 4 credential items
-    1. oauth_consumer_key
-    2. oauth_consumer_secret
-    3. oauth_token_secret
-    4. oauth_token
+
+ 1. oauth_consumer_key
+ 2. oauth_consumer_secret
+ 3. oauth_token_secret
+ 4. oauth_token
 
 Next make yourself familiar with the [Twitter API docs](https://developer.twitter.com/en/docs.html)
 
@@ -27,7 +28,7 @@ The API call you are most likely interest in are in the [post and engage overvie
 ## Creating a Authorization Header
 
 Th following example shows how to use the library, with your obtained credentials.
-It creates the Authorization header string required for posting a status update to the Twitter 'statuses/update' API endpoint
+It creates the Authorization header string required for posting a status update to the Twitter 'statuses/update' API endpoint. The example data ( oauth_consumer_key etc ) come from the [twitter code examples](https://dev.twitter.com/oauth/overview/creating-signatures).  The same example data has been used to test the library.
 
 ```
 declare
@@ -75,7 +76,7 @@ see if output from running example matches prescribed grep pattern
 
 ### very very simple coverage
 
-see if every function was called in lib by running example the inspecting trace
+see if every function was called in lib by running example then inspecting trace
 
 ```
 ├── Makefile => run `make coverage `bin/xQcall`
