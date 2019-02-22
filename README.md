@@ -6,26 +6,22 @@ This lib only purpose is to enable calls to Twitter API endpoints via
 
 ## Prior to using this library
 
-Ypu must obtain your twitter [access token](https://developer.twitter.com/en/docs/basics/authentication/guides/access-tokens)
-Go to [twitter apps dashboard](https://developer.twitter.com/en/apps) and obtain your 4 credentials.
-  1. oauth_consumer_key
-  2. oauth_consumer_secret
-  3. oauth_token_secret
-  4. oauth_token
+You must obtain your twitter [access token](https://developer.twitter.com/en/docs/basics/authentication/guides/access-tokens)
+from the [twitter apps dashboard](https://developer.twitter.com/en/apps)
+You will end up with your 4 credential items
+    1. oauth_consumer_key
+    2. oauth_consumer_secret
+    3. oauth_token_secret
+    4. oauth_token
 
-Make yourself familiar with the [Twitter API docs](https://developer.twitter.com/en/docs.html)
+Next make yourself familiar with the [Twitter API docs](https://developer.twitter.com/en/docs.html)
 
 The API call you are most likely interest in are in the [post and engage overview section](https://developer.twitter.com/en/docs/tweets/post-and-engage/overview)
 
 ## Creating a Authorization Header
 
-Collect the following items
- 1. method: e.g. [POST] the API http call method
- 2. resource e.g. [https://api.twitter.com/1.1/statuses/update ] the API resource 
- 3. your 4 credential items obtained fro twitter
- 4. your json request: e.g. { 'status': 'hi de hi' }
-
-A example which will create a Header for the postinga status to the Twitter 'statuses/update' API endpoint
+Th following example shows how to use the library, with your obtained credentials.
+It creates the Authorization header string required for posting a status update to the Twitter 'statuses/update' API endpoint
 
 ```
 declare
