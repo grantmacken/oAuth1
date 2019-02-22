@@ -50,8 +50,6 @@ function oAuth1:example() as xs:string {
 };
 
 ```
-
-
 --------------------------
 
 # Building From Source
@@ -77,7 +75,7 @@ see if output from running example matches prescribed grep pattern
 
 ### very very simple coverage
 
-see if every function was called in lib by running example then inspecting trace
+See if every function was called in lib by running example then inspecting trace
 
 ```
 ├── Makefile => run `make coverage `bin/xQcall`

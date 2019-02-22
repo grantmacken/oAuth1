@@ -83,24 +83,26 @@ reset:
 	@echo 'revert .env VERSION to current tag' 
 	@source .env; sed -i "s/^VERSION=$${VERSION}/VERSION=$(shell git describe --abbrev=0 --tag )/" .env
 
-.PHONY: release
-release:
+.PHONY: prep-release
+prep-release:
 	@echo '##[ $@ ]##'
 	@echo -n "current latest tag: " 
-	@git describe --abbrev=0 --tag &>/dev/null || git tag v0.0.1
+	@git describe --abbrev=0 --tag
 	@# git describe --tags $(git rev-list --tags --max-count=1)
 	@echo 'revert .env VERSION to current tag' 
-	@source .env; sed -i "s/^VERSION=$${VERSION}/VERSION=$(shell git describe --abbrev=0 --tag )/" .env
+	@sed -i "s/$(shell grep  -oP '^VERSION=(.+)' .env)/VERSION=$(shell git describe --abbrev=0 --tag )/" .env
 	@echo -n ' - bump the version: ' 
 	@bin/semVer patch
 	@grep -oP '^VERSION=\K(.+)$$' .env
 	@echo ' - do a build from the current tag' 
+	@$(MAKE) clean --silent
 	@$(MAKE) --silent
-	@#grep -oP '^VERSION=v\K(.+)$$' .env
-	@#grep -oP 'version="\K((\d+\.){2}\d+)' build/expath-pkg.xml
-	@echo v$(shell grep -oP 'version="\K((\d+\.){2}\d+)' build/expath-pkg.xml)
-	@#git commit .env -m 'prepare new release version' &>/dev/null || true
-	@#git push
+	@grep -oP '^VERSION=v\K(.+)$$' .env
+	@echo $$(grep -oP 'version="\K((\d+\.){2}\d+)' build/expath-pkg.xml)
+	@echo 'v$(shell grep -oP 'version="\K((\d+\.){2}\d+)' build/expath-pkg.xml)'
+
+.PHONY: push-release
+push-release:
 	@git tag v$(shell grep -oP 'version="\K((\d+\.){2}\d+)' build/expath-pkg.xml)
 	@git push origin  v$(shell grep -oP 'version="\K((\d+\.){2}\d+)' build/expath-pkg.xml)
 
