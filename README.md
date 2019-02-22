@@ -7,7 +7,7 @@ Create Authorization Headers for Twitter API calls via xQuery
 [latest release](https://github.com/grantmacken/oAuth1/releases/latest)
 
 [![GitHub tag](https://img.shields.io/github/tag/grantmacken/oAuth1.svg)](https://gitHub.com/grantmacken/oAuth1/tags/)
-[![GitHub release](https://img.shields.io/github/tag/grantmacken/oAuth1/all.svg)](https://gitHub.com/grantmacken/oAuth1/releases/latest)
+[![GitHub release](https://img.shields.io/github/release/grantmacken/oAuth1/all.svg)](https://gitHub.com/grantmacken/oAuth1/releases/latest)
 
 This lib only purpose is to enable calls to Twitter API endpoints via
  OAuth 1.0a protocol [Authorization Header](https://developer.twitter.com/en/docs/basics/authentication/guides/authorizing-a-request) 
