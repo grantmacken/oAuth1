@@ -1,10 +1,14 @@
-# oAuth1
-Create Authorization Headers for Twitter API calls xQueryoAuth1
+# Creating oAuth 1 protocol Authorization header strings in xQuery
+
+Create Authorization Headers for Twitter API calls via xQuery
 
 [![Build Status](https://travis-ci.org/grantmacken/oAuth1.svg?branch=master)](https://travis-ci.org/grantmacken/oAuth1)
 
 This lib only purpose is to enable calls to Twitter API endpoints via
  OAuth 1.0a protocol [Authorization Header](https://developer.twitter.com/en/docs/basics/authentication/guides/authorizing-a-request) 
+
+Built upon 'http://expath.org/ns/crypto' cypto lib, version: 0.6'
+which provides the `cypto:hmac` function to calculate the signature.
 
 ## Prior to using this library
 
