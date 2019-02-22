@@ -28,7 +28,8 @@ The API call you are most likely interest in are in the [post and engage overvie
 ## Creating a Authorization Header
 
 Th following example shows how to use the library, with your obtained credentials.
-It creates the Authorization header string required for posting a status update to the Twitter 'statuses/update' API endpoint. The example data ( oauth_consumer_key etc ) come from the [twitter code examples](https://dev.twitter.com/oauth/overview/creating-signatures).  The same example data has been used to test the library.
+It creates the Authorization header string required for posting a status update to the Twitter 'statuses/update' API endpoint. The example data ( oauth_consumer_key etc ) come from the twitter [creating signatures](https://dev.twitter.com/oauth/overview/creating-signatures) and [authorizing-requests](https://dev.twitter.com/oauth/overview/authorizing-requests) example code.
+The same example data has been used to test the library.
 
 ```
 declare
