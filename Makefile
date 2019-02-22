@@ -123,6 +123,8 @@ smoke:
 	@echo '##[ $@ ]##'
 	@bin/xQcall 'oAuth1:example()' \
  | grep -oP '^\s-\s(\w|-)(.+)$$'
+	@bin/xQcall 'oAuth1:example()' \
+ | grep -oP '^OAuth(.+)$$'
 
 .PHONY: coverage
 coverage: 

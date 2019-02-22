@@ -5,9 +5,33 @@ import module namespace crypto =  "http://expath.org/ns/crypto";
 : The <b>oAuth1</b> library provides functions ...
 :)
 
+declare
+function oAuth1:example() as xs:string {
+  (
+   ' - oAuth1:authorizationHeader#2 can be used to create an "authorization header" ', 
+   ' - that can be used to make a Twitter API requests ',
+   ' - vars used in example come from twitter API docs',
+   ' - 2 maps are passed to oAuth1:authorizationHeader#2 ',
+   ' - this results in a authorization header string ... ',
+   ( 
+   map {
+    'method' : 'POST',
+    'resource' : 'https://api.twitter.com/1.1/statuses/update',
+    'oauth_consumer_key' : 'xvz1evFS4wEEPTGEFPHBog',
+    'oauth_consumer_secret' : 'kAcSOqF21Fu85e7zjz7ZN2U4ZRhfV3WpwPAoE3Z7kBw',
+    'oauth_token_secret' : '370773112-GmHxMAgYyLbNEtIKZeRNFsMKPR9EyMZeS9weJAEb',
+    'oauth_token' : 'LswwdoUaIvS8ltyTt5jkRh4J50vUPVVHtR2YPi5kE'
+    }
+   ) =>  
+    oAuth1:authorizationHeader(
+    map { 'status' : 'Hello Ladies + Gentlemen, a signed OAuth request!' }
+    )
+) => string-join('&#10;')
+};
+
 (:~
-creates *'authorization header'* that can be used to make a Twitter API requests
-@see unit-tests/lib/oAuth.xqm;t-oAuth1:buildHeaderString 
+creates an *'authorization header'* that can be used to make a Twitter API requests
+This is main function, the only one you need
 @param $map  key, value map of a twitter authorisation credentials plus method and API resource
 @param $qMap key, value map of a URL query params
 @return string repesenting a oAuth header value
@@ -30,11 +54,6 @@ function oAuth1:authorizationHeader( $map as map(*), $qMap as map(*) ) as xs:str
     }))
 
   let $resource := xmldb:decode-uri($map('resource'))
-  (:
-  let $log1 := util:log-system-out( 'timestamp: ' || $params('oauth_timestamp'))
-  let $log2 := util:log-system-out('nonce: '  || $params('oauth_nonce') )
-  let $log3 := util:log-system-out('resource: '  || $resource )
-  :)
   let $oAuthSignature :=
       oAuth1:calculateSignature(
       oAuth1:createSignatureBaseString(
@@ -46,7 +65,6 @@ function oAuth1:authorizationHeader( $map as map(*), $qMap as map(*) ) as xs:str
       $map('oauth_consumer_secret'),
       $map('oauth_token_secret'))
   )
-
   let $headerMap :=
       map {
         'oauth_consumer_key' : $map('oauth_consumer_key'),
@@ -57,7 +75,6 @@ function oAuth1:authorizationHeader( $map as map(*), $qMap as map(*) ) as xs:str
         'oauth_token' : $map('oauth_token'),
         'oauth_version' : $params('oauth_version')
         }
-
       return (
         oAuth1:buildHeaderString( $headerMap )
       )
@@ -68,12 +85,12 @@ function oAuth1:authorizationHeader( $map as map(*), $qMap as map(*) ) as xs:str
 };
 
 (:~
-@see https://dev.twitter.com/oauth/overview/creating-signature
+concats the header items into one long header string
+in section 'Building the header string' in doc below 
+@see https://developer.twitter.com/en/docs/basics/authentication/guides/authorizing-a-request
 @see https://dev.twitter.com/oauth/overview/authorizing-requests
-should produce the the Authorization header value for a twitter API call
-@see modules/tests/lib/oAuth.xqm;t-oAuth1:buildHeaderString 
 @param $map map of params
-@return string  oAuth header value
+@return string oAuth header value
 :)
 declare
 function oAuth1:buildHeaderString(
@@ -97,8 +114,9 @@ concat(
 };
 
 (:~
-createParameterString SHOULD return a percent encoded string
-@see modules/tests/lib/oAuth.xqm;t-oAuth1:createParameterString
+collect Parameters included in request
+in section Collecting parameters in 
+@see https://developer.twitter.com/en/docs/basics/authentication/guides/creating-a-signature.html
 @param $params map of params
 @return string 
 :)
@@ -124,21 +142,11 @@ $params as map(*) ) as xs:string {
     )
 };
 
-(: TODO! above use sort after eXist implements sort
-    map:for-each( $params,
-      function( $key, $value ) {
-        concat(
-        encode-for-uri( $key ),
-        '=',
-        encode-for-uri( $value )
-        )
-        }
-      )
-:)
+(: TODO! above use sort after eXist implements sort :)
 
 (:~
-createSignatureBaseString SHOULD return a percent encoded string
-https://dev.twitter.com/oauth/overview/creating-signatures
+create the *Signature Base String*
+@see https://dev.twitter.com/oauth/overview/creating-signatures
 To encode the HTTP method, base URL, and parameter string into a single string:
  - Convert the HTTP Method to uppercase and set the output string equal to this value.
  - Append the ‘&’ character to the output string.
@@ -147,7 +155,7 @@ To encode the HTTP method, base URL, and parameter string into a single string:
  - Percent encode the parameter string and append it to the output string
 @see modules/tests/lib/oAuth.xqm;t-oAuth1:createSignatureBaseString
 @param $method  as xs:string,
-@return string 
+@return string  a percent encoded string
 :)
 declare function oAuth1:createSignatureBaseString(
 $method as xs:string,
@@ -165,11 +173,12 @@ $parameterString as xs:string
 
 
 (:~
-createSigningKey SHOULD return a percent encoded string
-@see modules/tests/lib/oAuth.xqm;t-oAuth1:createSigningKey
-@param $consumerSecret  Consumer secreti
+create the *Signing Key* 
+In section 'Getting a signing key' in doc 
+@see https://developer.twitter.com/en/docs/basics/authentication/guides/creating-a-signature.html
+@param $consumerSecret  Consumer secret
 @param $accessTokenSecret  OAuth token secret
-@return string 
+@return a percent encoded string
 :)
 declare function oAuth1:createSigningKey(
   $consumerSecret as xs:string, 
@@ -184,11 +193,12 @@ string-join(
 };
 
 (:~
-calculateSignature SHOULD return a base64 encoded string
-@see modules/tests/lib/oAuth.xqm;t-oAuth1:calculateSignature
+calculates the *signature* by passing signatureBaseString and signingKey and hashing with hmac
+In section 'calculating the signature' in doc 
+@see https://developer.twitter.com/en/docs/basics/authentication/guides/creating-a-signature.html
 @param $signatureBaseString  percent encoded base string 
 @param $signingKey percent encoded signing key 
-@return base64 string
+@return hmac signed binary string base64 encoded
 :)
 declare function oAuth1:calculateSignature(
   $signatureBaseString as xs:string,

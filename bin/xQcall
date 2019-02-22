@@ -3,7 +3,7 @@ source .env
 SRC="content/${NAME}.xqm"
 nsname=http://${NS_DOMAIN}/#${NAME}
 importNS=$(grep -oP '^module namespace(.+);$' $SRC)
-CALL=$1
+CALL="$1"
 
 IPAddress=$(docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $CONTAINER)
 URL="http://${IPAddress}:8080/exist/rest/db"
@@ -22,7 +22,7 @@ import $importNS
 try {
   let \$nl := "&#10;"
 return (
-$CALL,
+${CALL},
 \$nl)} catch * {
       'Error:${SRC}:' || \$err:code || ': '  || \$err:description || '&#10;'
 }

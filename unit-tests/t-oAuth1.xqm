@@ -128,7 +128,7 @@ function t-oAuth1:createParameterString() as xs:string {
 :)
 declare
 %test:name(
-'should calculate the signature as a base64 encoded string'
+'should create base64 encoded string from hmac hash of passed params'
 )
 %test:args(
   'post',
