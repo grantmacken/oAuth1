@@ -129,19 +129,26 @@ smoke:
 .PHONY: coverage
 coverage: 
 	@echo '##[ $@ ]##'
-	@#$(MAKE) down --silent
-	@#$(MAKE) up --silent
-	@#$(MAKE) --silent
+	@$(MAKE) down --silent
+	@$(MAKE) up --silent
+	@$(MAKE) --silent
 	@bin/xQcall 'system:enable-tracing(true())'
 	@bin/xQcall 'oAuth1:example()' &>/dev/null
 	@bin/xQcall 'system:enable-tracing(false())'
 	@bin/xQtrace
 
-.PHONY: rec
-rec:
-	asciinema rec tmp/oAuth1.cast --overwrite --title='grantmacken/oAuth1 run `make test`  ' --command='make test --silent'
+.PHONY: rec-test
+rec-test:
+	asciinema rec tmp/oAuth1.cast \
+ --overwrite \
+ --title='grantmacken/oAuth1 run `make test && make smoke && make coverage`  '\
+ --command='make test --silent && make smoke --silent && make coverage --silent '
 
-iPHONY: play
+.PHONY: rec-smoke
+rec-smoke:
+	asciinema rec tmp/oAuth1.cast --overwrite --title='grantmacken/oAuth1 run `make smoke`  ' --command='make smoke --silent'
+
+PHONY: play
 play:
 	asciinema play tmp/oAuth1.cast
 

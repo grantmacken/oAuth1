@@ -1,5 +1,7 @@
 # oAuth1
-Create Authorization Headers for Twitter API calls
+Create Authorization Headers for Twitter API calls xQueryoAuth1
+
+[![Build Status](https://travis-ci.org/grantmacken/oAuth1.svg?branch=master)](https://travis-ci.org/grantmacken/oAuth1)
 
 This lib only purpose is to enable calls to Twitter API endpoints via
  OAuth 1.0a protocol [Authorization Header](https://developer.twitter.com/en/docs/basics/authentication/guides/authorizing-a-request) 
@@ -43,4 +45,40 @@ function oAuth1:example() as xs:string {
 
 ```
 
+
+--------------------------
+
+# Building From Source
+
+## Repo Test Scaffolding
+
+```
+├── Makefile => run `make test` calls `prove -v bin/xQtest`
+├── bin
+│   ├── xQtest -> produce TAP report
+```
+[![asciicast](https://asciinema.org/a/229036.svg)](https://asciinema.org/a/229036)
+
+### very simple smoke test
+
+see if output from running example matches prescribed grep pattern
+
+```
+├── Makefile => run `make smoke` calls `bin/xQcall`
+├── bin
+│   ├── xQcall -> runs example
+```
+
+### very very simple coverage
+
+see if every function was called in lib by running example the inspecting trace
+
+```
+├── Makefile => run `make coverage `bin/xQcall`
+├── bin
+│   ├── xQcall -> enable tracing 
+               -> run example 
+               -> stop tracing 
+               -> inpect trace
+```
 
